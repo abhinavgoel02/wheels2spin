@@ -15,32 +15,20 @@ class Listing extends Controller
      * PAGE: index
      * This method handles what happens when you move to http://yourproject/bikes/index
      */
-    public function index()
+    public function index($model)
     {
-        // simple message to show where you are
-        echo 'Message from Controller: You are in the Controller: List, using the method index().';
-
-        // load a model, perform an action, pass the returned data to a variable
-        // NOTE: please write the name of the model "LikeThis"
-        $bikes_model = $this->loadModel('BikesModel');
-        $bikes = $bikes_model->getAllBikes();
-
-	$bikeModels = array();
-	$bikePrices = array();
-
-	foreach ($bikes as $bike) {
-		$bikeModels[] = $bike->model;
-		$bikePrices[] = $bike->price;
-	}
-	$bikeModels = array_unique($bikeModels, SORT_STRING);
-
-        // load another model, perform an action, pass the returned data to a variable
-        // NOTE: please write the name of the model "LikeThis"
-        $stats_model = $this->loadModel('StatsModel');
-        $amount_of_bikes = $stats_model->getAmountOfBikes();
-
-        // load views. within the views we can echo out $bikes and $amount_of_bikes easily
-        require 'application/views/bikes/list.php';
+	    if (isset($_POST["submit_list_bike"])) {
+		    $bikes_model = $this->loadModel('BikesModel');
+		    $bikes = $bikes_model->listBikes($model);
+		    $bikeModels = array();
+		    $bikePrices = array();
+		    foreach ($bikes as $bike) {
+			    $bikeModels[] = $bike->model;
+			    $bikePrices[] = $bike->price;
+		    }
+		    $bikeModels = array_unique($bikeModels, SORT_STRING);
+            	require 'application/views/bikes/list.php';
+	    }
     }
 
     /**

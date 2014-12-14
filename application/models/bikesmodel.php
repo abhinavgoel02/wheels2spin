@@ -31,6 +31,21 @@ class BikesModel
     }
 
     /**
+      Get bikes from database based on filters
+      @param string $model Model
+    */
+    public function listBikes($model)
+    {
+        $model = strip_tags($model);
+	$sql = "SELECT id, model, price, owner, phone, link FROM bike WHERE model = :model";
+	$query = $this->db->prepare($sql);
+	$query->bindParam(':model', $model);
+	$query->execute();
+
+	return $query->fetchAll();
+    }
+
+    /**
      * Add a bike to database
      * @param string $artist Artist
      * @param string $track Track

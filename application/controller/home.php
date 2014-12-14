@@ -2,6 +2,7 @@
 
 /**
  * Class Home
+ * This is a demo class.
  *
  * Please note:
  * Don't use the same name for class and method, as this might trigger an (unintended) __construct of the class.
@@ -12,45 +13,90 @@ class Home extends Controller
 {
     /**
      * PAGE: index
-     * This method handles what happens when you move to http://yourproject/home/index (which is the default page btw)
+     * This method handles what happens when you move to http://yourproject/bikes/index
      */
     public function index()
     {
-        // debug message to show where you are, just for the demo
-        echo 'Message from Controller: You are in the controller home, using the method index()';
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
+        // load a model, perform an action, pass the returned data to a variable
+        // NOTE: please write the name of the model "LikeThis"
+        $bikes_model = $this->loadModel('BikesModel');
+        $bikes = $bikes_model->getAllBikes();
+
+	$bikeModels = array();
+	$bikePrices = array();
+
+	foreach ($bikes as $bike) {
+		$bikeModels[] = $bike->model;
+		$bikePrices[] = $bike->price;
+	}
+	$bikeModels = array_unique($bikeModels, SORT_STRING);
+
+        // load views. within the views we can echo out $bikes and $amount_of_bikes easily
         require 'application/views/home/index.php';
-        require 'application/views/_templates/footer.php';
+    }
+
+    public function listBikes($model)
+    {
+	    if (isset($_POST["submit_list_bike"])) {
+		    $bikes_model = $this->loadModel('BikesModel');
+		    $bikes = $bikes_model->listBikes($model);
+		    $bikeModels = array();
+		    $bikePrices = array();
+		    foreach ($bikes as $bike) {
+			    $bikeModels[] = $bike->model;
+			    $bikePrices[] = $bike->price;
+		    }
+		    $bikeModels = array_unique($bikeModels, SORT_STRING);
+	    }
+            require 'application/views/home/index.php';
     }
 
     /**
-     * PAGE: exampleone
-     * This method handles what happens when you move to http://yourproject/home/exampleone
-     * The camelCase writing is just for better readability. The method name is case insensitive.
+     * ACTION: addBike
+     * This method handles what happens when you move to http://yourproject/bikes/addbike
+     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a bike" form on bikes/index
+     * directs the user after the form submit. This method handles all the POST data from the form and then redirects
+     * the user back to bikes/index via the last line: header(...)
+     * This is an example of how to handle a POST request.
      */
-    public function exampleOne()
+    public function addBike()
     {
-        // debug message to show where you are, just for the demo
-        echo 'Message from Controller: You are in the controller home, using the method exampleOne()';
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
-        require 'application/views/home/example_one.php';
-        require 'application/views/_templates/footer.php';
+        // simple message to show where you are
+        echo 'Message from Controller: You are in the Controller: Bikes, using the method addBike().';
+
+        // if we have POST data to create a new bike entry
+        if (isset($_POST["submit_add_bike"])) {
+            // load model, perform an action on the model
+            $bikes_model = $this->loadModel('BikesModel');
+            $bikes_model->addBike($_POST["model"], $_POST["price"],  $_POST["owner"], $_POST["phone"], $_POST["link"]);
+        }
+
+        // where to go after bike has been added
+        header('location: ' . URL . 'bikes/index');
     }
 
     /**
-     * PAGE: exampletwo
-     * This method handles what happens when you move to http://yourproject/home/exampletwo
-     * The camelCase writing is just for better readability. The method name is case insensitive.
+     * ACTION: deleteBike
+     * This method handles what happens when you move to http://yourproject/bikes/deletebike
+     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "delete a bike" button on bikes/index
+     * directs the user after the click. This method handles all the data from the GET request (in the URL!) and then
+     * redirects the user back to bikes/index via the last line: header(...)
+     * This is an example of how to handle a GET request.
+     * @param int $bike_id Id of the to-delete bike
      */
-    public function exampleTwo()
+    public function deleteBike($bike_id)
     {
-        // debug message to show where you are, just for the demo
-        echo 'Message from Controller: You are in the controller home, using the method exampleTwo()';
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
-        require 'application/views/home/example_two.php';
-        require 'application/views/_templates/footer.php';
+        // simple message to show where you are
+        echo 'Message from Controller: You are in the Controller: Bikes, using the method deleteBike().';
+
+        // if we have an id of a bike that should be deleted
+        if (isset($bike_id)) {
+            // load model, perform an action on the model
+            $bikes_model = $this->loadModel('BikesModel');
+            $bikes_model->deleteBike($bike_id);
+        }
+
+        // where to go after bike has been deleted
+        header('location: ' . URL . 'bikes/index');
     }
 }

@@ -1,0 +1,22 @@
+#search_bar_wrapper {display:inline-block;height:32px;padding:3px;background:rgba(255,255,255,.2);border-radius:3px;position:relative}
+@media only screen and (min-width:320px) and (max-width:640px) {#search_bar_wrapper {height:inherit}
+.hp-login-area #search_bar_wrapper {height:50px;padding:6px}
+#search_bar_wrapper :focus {outline:0}
+.hp-login-area #search_bar_wrapper {height:initial;padding:10px}
+@media (min-width:641px) and (max-width:800px) {#search_bar_wrapper {width:100%}
+#keywords_container,#location_contianer {display:inline-block;height:100%;position:relative}
+#location_contianer .suggest-box {top:40px;width:254px;z-index:1}
+.hp-login-area #location_contianer .suggest-box {top:50px;width:324px}
+@media only screen and (min-width:0) and (max-width:991px) {.hp-login-area #keywords_container,.hp-login-area #location_contianer {margin-bottom:6px}
+.hp-login-area #keywords_container,.hp-login-area #location_contianer {width:100%}
+.hp-login-area #keywords_container #explore-keywords-dropdown,.hp-login-area #location_contianer .suggest-box {width:100%;-moz-box-sizing:border-box;box-sizing:border-box;left:0}
+#keywords_container,#location_contianer {width:40%;-moz-box-sizing:border-box;box-sizing:border-box}
+.is-responsive #keywords_container,.is-responsive #location_contianer {width:100%}
+.is-responsive #keywords_container #explore-keywords-dropdown,.is-responsive #location_contianer .suggest-box {width:100%;-moz-box-sizing:border-box;box-sizing:border-box;right:0}
+#keywords_pretext,#location_pretext {display:inline-block;font-size:13px;background:#fff;background:rgba(255,255,255,.95);height:100%;color:#9a9a9a;width:230px;line-height:42px}
+.hp-login-area #keywords_pretext,.hp-login-area #location_pretext {line-height:52px;width:300px;font-size:16px}
+#location_pretext {padding:0 10px 0 15px;border-radius:3px 0 0 3px}
+@media only screen and (min-width:320px) and (max-width:640px) {#location_pretext {border-radius:3px!important}
+.hp-login-area #keywords_pretext,.hp-login-area #location_pretext {width:100%;-moz-box-sizing:border-box;box-sizing:border-box;text-align:left;border-radius:3px}
+#keywords_pretext,#location_pretext {width:100%;-moz-box-sizing:border-box;box-sizing:border-box}
+.is-responsive #keywords_pretext,.is-responsive #location_pretext {width:100%;-moz-box-sizing:border-box;box-sizing:border-box}
